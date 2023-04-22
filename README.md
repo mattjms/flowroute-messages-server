@@ -1,24 +1,7 @@
-# README
+# Flowroute Messages Server
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Playground Rails application for receiving and sending
+SMS text messages throught the Flowroute API.
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+* Runs in a [VS Code container](https://github.com/devcontainers/templates/tree/main/src/ruby-rails-postgres)
+* [Set up with Vite](https://davidteren.medium.com/ruby-on-rails-7-high-performance-frontend-with-esbuild-rollup-vite-7712dea1917e) for asset building
