@@ -9,7 +9,6 @@ gem "puma", "~> 5.0"
 gem "vite_rails"
 gem "vite_ruby"
 gem "turbo-rails"
-gem "stimulus-rails"
 gem "jbuilder"
 gem "bootsnap", require: false
 
