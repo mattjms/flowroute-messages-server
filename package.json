@@ -3,12 +3,7 @@
   "private": "true",
   "dependencies": {
     "@hotwired/turbo-rails": "^7.3.0",
-    "@tailwindcss/aspect-ratio": "^0.4.2",
-    "@tailwindcss/forms": "^0.5.3",
-    "@tailwindcss/line-clamp": "^0.4.4",
-    "@tailwindcss/typography": "^0.5.9",
     "autoprefixer": "^10.4.14",
-    "tailwindcss": "^3.3.1",
     "vue": "^3.2.47"
   },
   "scripts": {},
@@ -17,7 +12,6 @@
     "eslint": "^8.39.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-prettier": "^4.2.1",
-    "eslint-plugin-tailwindcss": "^3.11.0",
     "path": "^0.12.7",
     "prettier": "^2.8.7",
     "vite": "^4.2.0",
