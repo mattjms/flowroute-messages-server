@@ -1,7 +1,6 @@
 console.log('Vite ⚡️ Rails')
 console.log('Visit the guide for more information: ', 'https://vite-ruby.netlify.app/guide/rails')
 
-console.log("TWO")
 // Example: Load Rails libraries in Vite.
 //
 // import * as Turbo from '@hotwired/turbo-rails'
@@ -16,9 +15,12 @@ console.log("TWO")
 // Example: Import a stylesheet in app/frontend/index.css
 // import '~/index.css'
 
+import "bootstrap/dist/css/bootstrap.css";
 
 import { createApp } from 'vue'
 import App from '../components/App.vue'
 
 const app = createApp(App)
 app.mount('#app')
+
+import "bootstrap/dist/js/bootstrap.js";
