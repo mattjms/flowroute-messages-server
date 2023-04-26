@@ -19,8 +19,21 @@ const columns = ref([
     format: val => `${val}`,
     sortable: true
   },
-  { name: 'api_key', align: 'left', label: 'API Key', field: 'api_key', sortable: true },
-  { name: 'secret_key', align: 'left', label: 'Secret Key', field: 'secret_key', sortable: true },
+  {
+    name: 'api_key',
+    align: 'left',
+    label: 'API Key',
+    field: 'api_key',
+    sortable: true
+  },
+  {
+    name: 'secret_key',
+    align: 'left',
+    label: 'Secret Key',
+    field: 'secret_key',
+    format: _val => '••••••••••••••••',
+    sortable: true
+  },
 ])
 
 const pagination = ref({
@@ -42,7 +55,6 @@ function onRequest (props) {
 
   api.get('/users.json')
     .then((response) => {
-      console.log(response)
       pagination.value.rowsNumber = response.data.total
 
       // clear out existing data and add new
