@@ -1,8 +1,0 @@
-return {
-  framework: {
-    plugins: [
-      'Notify'
-    ],
-  }
-}
-

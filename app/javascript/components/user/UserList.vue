@@ -31,18 +31,7 @@ const pagination = ref({
   rowsNumber: 10
 })
 
-const rows = ref([
-  {
-    email: 'Frozen Yogurt',
-    api_key: 159,
-    secret_key: 6.0,
-  },
-  {
-    email: 'Ice cream sandwich',
-    api_key: 237,
-    secret_key: 9.0,
-  }
-])
+const rows = ref([])
 
 function onRequest (props) {
   const { page, rowsPerPage, sortBy, descending } = props.pagination
@@ -54,10 +43,10 @@ function onRequest (props) {
   api.get('/users.json')
     .then((response) => {
       console.log(response)
-      pagination.value.rowsNumber = response.total
+      pagination.value.rowsNumber = response.data.total
 
       // clear out existing data and add new
-      rows.value.splice(0, rows.value.length, ...response.results)
+      rows.value.splice(0, rows.value.length, ...response.data.results)
 
       // don't forget to update local pagination object
       pagination.value.page = page
@@ -69,19 +58,12 @@ function onRequest (props) {
       loading.value = false
      })
     .catch(() => {
-      console.log(arguments)
       $q.notify({
         color: 'negative',
         position: 'top',
         message: 'Loading failed',
-        icon: 'report_problem'
       })
     })
-
-
-  // emulate server
-  setTimeout(() => {
- }, 1500)
 }
 
 

@@ -21,14 +21,16 @@ import '@quasar/extras/bootstrap-icons/bootstrap-icons.css'
 import 'quasar/src/css/index.sass'
 
 import { createApp } from 'vue'
-import { Quasar } from 'quasar'
+import { Quasar, Notify } from 'quasar'
 import quasarIconSet from 'quasar/icon-set/svg-bootstrap-icons'
 import App from '../components/App.vue'
 
 const app = createApp(App)
 
 app.use(Quasar, {
-  plugins: {}, // import Quasar plugins and add here
+  plugins: {
+    Notify
+  },
   iconSet: quasarIconSet,
   /*
   config: {
