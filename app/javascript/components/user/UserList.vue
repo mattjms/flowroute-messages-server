@@ -4,10 +4,13 @@ import { api } from '../../boot/axios'
 import { useQuasar } from 'quasar'
 
 const $q = useQuasar()
+const BLANK_SECRET = '••••••••••••••••'
 
 const tableRef = ref()
 const filter = ref('')
 const loading = ref(true)
+const edit = ref(false)
+const record = ref()
 
 const columns = ref([
   {
@@ -31,8 +34,13 @@ const columns = ref([
     align: 'left',
     label: 'Secret Key',
     field: 'secret_key',
-    format: _val => '••••••••••••••••',
+    format: _val => BLANK_SECRET,
     sortable: true
+  },
+  {
+    name: 'actions',
+    label: 'Action',
+    align: 'center',
   },
 ])
 
@@ -78,6 +86,37 @@ function onRequest (props) {
     })
 }
 
+function onBeginEdit(row) {
+  record.value = row;
+  record.value.secret_key = BLANK_SECRET;
+  edit.value = true;
+}
+
+function onEditCancel() {
+  record.value = undefined;
+}
+
+function onEditSave() {
+  api.put(record.value.url, record.value)
+    .then(() => {
+      $q.notify({
+        color: 'positive',
+        position: 'top',
+        message: 'Save Successful',
+      })
+    })
+    .catch(() => {
+      $q.notify({
+        color: 'negative',
+        position: 'top',
+        message: 'Save failed',
+      })
+    })
+}
+
+function onDelete(props) {
+  console.log('delete', props);
+}
 
 onMounted(() => {
   tableRef.value.requestServerInteraction()
@@ -98,7 +137,34 @@ onMounted(() => {
       :filter="filter"
       binary-state-sort
       @request="onRequest"
-    />
+    >
+      <template v-slot:body-cell-actions="props">
+        <q-td :props="props">
+          <q-btn icon="bi-pencil" @click="onBeginEdit(props.row)"></q-btn>
+          <q-btn icon="bi-trash" @click="onDelete(props.row)"></q-btn>
+        </q-td>
+      </template>
+    </q-table>
+
+    <q-dialog v-model="edit" persistent>
+      <q-card style="min-width: 450px">
+        <q-card-section>
+          <div class="text-h6">User Detail</div>
+        </q-card-section>
+
+        <q-card-section class="q-pt-none">
+          <q-input dense v-model="record.email" label="Email" autofocus />
+          <q-input dense v-model="record.api_key" label="API Key" />
+          <q-input dense v-model="record.secret_key" label="Secret Key" type="password" />
+        </q-card-section>
+
+        <q-card-actions align="right" class="text-primary">
+          <q-btn flat label="Cancel" v-close-popup @click="onEditCancel()"/>
+          <q-btn flat label="Save" v-close-popup @click="onEditSave()" />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
+
   </div>
 </template>
 
