@@ -8,7 +8,7 @@ const tab = ref('users')
 <template>
   <q-layout view="hHh lpR fFf">
 
-    <q-header elevated class="bg-primary text-white g-0">
+    <q-header elevated class="bg-primary text-white">
       <q-toolbar>
         <q-toolbar-title>
           <q-avatar>
