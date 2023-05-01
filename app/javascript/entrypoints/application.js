@@ -15,7 +15,6 @@ console.log('Visit the guide for more information: ', 'https://vite-ruby.netlify
 // Example: Import a stylesheet in app/frontend/index.css
 // import '~/index.css'
 
-import "bootstrap/dist/css/bootstrap.css";
 import '@quasar/extras/roboto-font/roboto-font.css'
 import '@quasar/extras/bootstrap-icons/bootstrap-icons.css'
 import 'quasar/src/css/index.sass'

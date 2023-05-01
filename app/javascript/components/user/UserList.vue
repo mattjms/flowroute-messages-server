@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue'
 import { api } from '../../boot/axios'
 import { useQuasar } from 'quasar'
+import { UserModel, UserStore } from '../../data/User'
 
 const $q = useQuasar()
 const BLANK_SECRET = '••••••••••••••••'
@@ -45,11 +46,11 @@ const columns = ref([
 ])
 
 const pagination = ref({
-  sortBy: 'desc',
+  sortBy: 'email',
   descending: false,
   page: 1,
-  rowsPerPage: 3,
-  rowsNumber: 10
+  rowsPerPage: 5,
+  rowsNumber: 0
 })
 
 const rows = ref([])
@@ -59,31 +60,26 @@ function onRequest (props) {
   const filter = props.filter
   const fetchCount = rowsPerPage === 0 ? pagination.value.rowsNumber : rowsPerPage
 
+  const store = new UserStore().page(page);
+
   loading.value = true
+  store.fetch({ params: {
+    page: page,
+    page_size: rowsPerPage,
+    sort_by: sortBy,
+    descending: descending,
+  }})
+    .then(function(response) {
+      rows.value.splice(0, rows.value.length, ...response.getData())
 
-  api.get('/users.json')
-    .then((response) => {
-      pagination.value.rowsNumber = response.data.total
-
-      // clear out existing data and add new
-      rows.value.splice(0, rows.value.length, ...response.data.results)
-
-      // don't forget to update local pagination object
+      pagination.value.rowsNumber = store.getTotal()
       pagination.value.page = page
       pagination.value.rowsPerPage = rowsPerPage
       pagination.value.sortBy = sortBy
       pagination.value.descending = descending
 
-      // ...and turn of loading indicator
       loading.value = false
-     })
-    .catch(() => {
-      $q.notify({
-        color: 'negative',
-        position: 'top',
-        message: 'Loading failed',
-      })
-    })
+    });
 }
 
 function onBeginEdit(row) {

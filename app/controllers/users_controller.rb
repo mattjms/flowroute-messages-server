@@ -3,7 +3,11 @@ class UsersController < ApplicationController
 
   # GET /users or /users.json
   def index
-    @users = User.all
+    @users = User.all.
+      order(sort_by => sort_order)
+    if page_size > 0
+      @users = @users.offset(page * page_size).limit(page_size)
+    end
   end
 
   # GET /users/1 or /users/1.json
@@ -58,13 +62,27 @@ class UsersController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_user
       @user = User.find(params[:id])
     end
 
-    # Only allow a list of trusted parameters through.
     def user_params
       params.permit(:email, :api_key, :secret_key)
+    end
+
+    def sort_by
+      params[:sort_by]&.to_sym || :email
+    end
+
+    def sort_order
+      params[:descending] == 'true' ? :desc : :asc
+    end
+
+    def page
+      (params[:page]&.to_i || 1) - 1
+    end
+
+    def page_size
+      params[:page_size]&.to_i || 5
     end
 end
