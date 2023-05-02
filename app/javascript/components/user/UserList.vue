@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { reactive, ref, onMounted } from 'vue'
 import { api } from '../../boot/axios'
 import { useQuasar } from 'quasar'
 import { UserModel, UserStore } from '../../data/User'
@@ -12,6 +12,7 @@ const filter = ref('')
 const loading = ref(true)
 const edit = ref(false)
 const record = ref()
+const store = reactive(new UserStore())
 
 const columns = ref([
   {
@@ -53,25 +54,20 @@ const pagination = ref({
   rowsNumber: 0
 })
 
-const rows = ref([])
-
 function onRequest (props) {
   const { page, rowsPerPage, sortBy, descending } = props.pagination
   const filter = props.filter
   const fetchCount = rowsPerPage === 0 ? pagination.value.rowsNumber : rowsPerPage
 
-  const store = new UserStore().page(page);
-
   loading.value = true
-  store.fetch({ params: {
+  store.clear();
+  store.page(page).fetch({ params: {
     page: page,
     page_size: rowsPerPage,
     sort_by: sortBy,
     descending: descending,
   }})
     .then(function(response) {
-      rows.value.splice(0, rows.value.length, ...response.getData())
-
       pagination.value.rowsNumber = store.getTotal()
       pagination.value.page = page
       pagination.value.rowsPerPage = rowsPerPage
@@ -125,7 +121,7 @@ onMounted(() => {
     <q-table
       title="Users"
       ref="tableRef"
-      :rows="rows"
+      :rows="store.models"
       :columns="columns"
       row-key="email"
       v-model:pagination="pagination"
